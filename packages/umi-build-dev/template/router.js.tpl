@@ -26,11 +26,7 @@ const transRoute = (menus) =>{
 }),(dispatch)=>({
   queryMenus: payload=>dispatch({type:'route/queryMenus',payload})
 }))
-export default class Route extends PureComponent {
-
-  constructor(props){
-    super(props);
-  }
+export default class RouteEd extends PureComponent {
 
   componentWillMount(){
     const {queryMenus} = this.props;
