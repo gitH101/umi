@@ -14,7 +14,10 @@ let routes = {{{ routes }}};
 
 const transMenuMap = createSelector(
   [ route=>route && route.menus || [] ],
-  (menus) => menus.reduce((result,menu)=>result[menu.key] = true,{})
+  (menus) => menus.reduce((result,menu)=>{
+    result[menu.key] = true;
+    return result;
+  },{})
 );
 const transRoute = (routes, menuMap) =>{
   let tem = [];
@@ -70,7 +73,6 @@ export default class RouteEd extends PureComponent {
   }
   render(){
     const routes = this.transRoutes();
-    window.g_plugins.applyForEach('patchRoutes', { initialValue: routes });
       return (
     {{{ routerContent }}}
       );
