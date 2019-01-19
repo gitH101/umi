@@ -15,8 +15,8 @@ let routes = {{{ routes }}};
 const transMenuMap = createSelector(
   [ route=>route && route.menus || [] ],
   (menus) => menus.reduce((result,menu)=>{
-    result[menu.key] = true;
-    return result;
+	result[menu.key] = true;
+	return result;
   },{})
 );
 const transRoute = (routes, menuMap) =>{
@@ -52,10 +52,10 @@ export default class RouteEd extends PureComponent {
 
   componentWillReceiveProps(next){
     this.setState({tag:false});
-    const { loginStatus, queryMenus } = this.props;
-    if(next.loginStatus !== loginStatus){
-      queryMenus();
-    }
+ //   const { loginStatus, queryMenus } = this.props;
+ //   if(next.loginStatus !== loginStatus){
+ //     queryMenus();
+ //   }
   }
 
   transRoutes(){
@@ -64,12 +64,7 @@ export default class RouteEd extends PureComponent {
     if(tag){
       return routes;
     }
-	const pathRoutes = transRoute(routes[1].routes, menuMap);
-	const newRoutes = [...routes];
-	const newRoute1 = {...newRoutes[1]}
-	newRoute1.routes = pathRoutes;
-	newRoutes[1] = newRoute1;
-    return newRoutes;
+    return update(routes,{[1]:{routes:{$set:transRoute(routes[1].routes, menuMap)}}});
   }
   render(){
     const routes = this.transRoutes();
