@@ -34,6 +34,7 @@ const transRoute = (routes, menuMap) =>{
 };
 
 @connect(({ route, login }) => ({
+  menus: route && route.menus || [],
   menuMap: transMenuMap(route),
   loginStatus: login.status
 }),(dispatch)=>({
@@ -51,23 +52,23 @@ export default class RouteEd extends PureComponent {
   }
 
   componentWillReceiveProps(next){
-    this.setState({tag:false});
- //   const { loginStatus, queryMenus } = this.props;
- //   if(next.loginStatus !== loginStatus){
- //     queryMenus();
- //   }
+    const { loginStatus, queryMenus } = this.props;
+    if(next.loginStatus !== loginStatus){
+      queryMenus();
+    }
   }
 
   transRoutes(){
-    const {menuMap} = this.props;
-    const {tag} = this.state;
-    if(tag){
-      return routes;
+    const {menuMap, menus} = this.props;
+    if(menus && menus.length > 0){
+		console.log(transRoute(routes[1].routes, menuMap), menus);
+        return update(routes,{[1]:{routes:{$set:transRoute(routes[1].routes, menuMap)}}});
     }
-    return update(routes,{[1]:{routes:{$set:transRoute(routes[1].routes, menuMap)}}});
+	return routes;
   }
   render(){
     const routes = this.transRoutes();
+
       return (
     {{{ routerContent }}}
       );
