@@ -61,14 +61,12 @@ export default class RouteEd extends PureComponent {
   transRoutes(){
     const {menuMap, menus} = this.props;
     if(menus && menus.length > 0){
-		console.log(transRoute(routes[1].routes, menuMap), menus);
         return update(routes,{[1]:{routes:{$set:transRoute(routes[1].routes, menuMap)}}});
     }
-	return routes;
+	  return routes;
   }
   render(){
     const routes = this.transRoutes();
-
       return (
     {{{ routerContent }}}
       );
